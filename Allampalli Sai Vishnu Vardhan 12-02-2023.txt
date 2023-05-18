@@ -1,0 +1,338 @@
+Name: Allampalli Sai Vishnu VArdhan; EMp ID:MLI1201
+##########################################################################################################################################################
+              ANSWERS 
+            #########
+
+1.Write a shell script to list all of the directory files in a directory?
+
+#! /bin/bash
+echo -e "enter directory name:\c"
+read dir
+if [ -d $dir ]
+then
+echo "list of files in directory"
+cd $dir
+ls -la
+else 
+ echo"No directory is present in that name"
+ fi
+
+output
+#############################################################
+vishnuallampalli@linux:~/Desktop/tasks$ ./listfiles2.sh 
+enter directory name
+apache-tomcat-8.5.85/
+list of files in directory
+total 156
+drwxrwxr-x 9 vishnuallampalli vishnuallampalli  4096 Feb 19 20:29 .
+drwxrwxr-x 4 vishnuallampalli vishnuallampalli  4096 Feb 19 20:29 ..
+drwxr-x--- 2 vishnuallampalli vishnuallampalli  4096 Feb 19 20:29 bin
+-rw-r----- 1 vishnuallampalli vishnuallampalli 19992 Jan 11 05:39 BUILDING.txt
+drwx------ 2 vishnuallampalli vishnuallampalli  4096 Jan 11 05:39 conf
+-rw-r----- 1 vishnuallampalli vishnuallampalli  6210 Jan 11 05:39 CONTRIBUTING.md
+drwxr-x--- 2 vishnuallampalli vishnuallampalli  4096 Feb 19 20:29 lib
+-rw-r----- 1 vishnuallampalli vishnuallampalli 57011 Jan 11 05:39 LICENSE
+drwxr-x--- 2 vishnuallampalli vishnuallampalli  4096 Jan 11 05:39 logs
+-rw-r----- 1 vishnuallampalli vishnuallampalli  1726 Jan 11 05:39 NOTICE
+-rw-r----- 1 vishnuallampalli vishnuallampalli  3398 Jan 11 05:39 README.md
+-rw-r----- 1 vishnuallampalli vishnuallampalli  7139 Jan 11 05:39 RELEASE-NOTES
+-rw-r----- 1 vishnuallampalli vishnuallampalli 16505 Jan 11 05:39 RUNNING.txt
+drwxr-x--- 2 vishnuallampalli vishnuallampalli  4096 Feb 19 20:29 temp
+drwxr-x--- 7 vishnuallampalli vishnuallampalli  4096 Jan 11 05:39 webapps
+drwxr-x--- 2 vishnuallampalli vishnuallampalli  4096 Jan 11 05:39 work
+################################################################################################################################################################
+
+2.Write a simple script to install any tomcat server?
+#!/bin/bash
+sudo wget https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.85/bin/apache-tomcat-8.5.85.tar.gz
+
+tar xvzf apache-tomcat-8.5.85.tar.gz
+
+rm -rf apache-tomcat-8.5.85.tar.gz
+
+output
+####################################################################################################################################################################
+--2023-02-19 20:29:57--  https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.85/bin/apache-tomcat-8.5.85.tar.gz
+Resolving dlcdn.apache.org (dlcdn.apache.org)... 151.101.2.132, 2a04:4e42::644
+Connecting to dlcdn.apache.org (dlcdn.apache.org)|151.101.2.132|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 10633461 (10M) [application/x-gzip]
+Saving to: ‘apache-tomcat-8.5.85.tar.gz
+apache-tomcat-8.5.8 100%[===================>]  10.14M  16.1MB/s    in 0.6s    
+
+2023-02-19 20:29:58 (16.1 MB/s) - ‘apache-tomcat-8.5.85.tar.gz’ saved [10633461/10633461]
+
+####################################################################################################################################################################
+
+3. write a shell script using arithmetic operators for adding, multiplication and subtraction of any two numbers?
+
+#!/bin/bash
+
+echo "arthematic OPerations"
+
+echo "enter values"
+
+read num1
+
+read num2
+
+c=`expr $num1 + $num2`
+
+d=`expr $num1 - $num2`
+
+e=`expr $num1 \* $num2`
+f=`expr $num1 / $num2`
+echo $c
+echo $d
+echo $e
+echo $f
+
+output
+###############################################################################################################################################################################################
+vishnuallampalli@linux:~/Desktop/tasks$ ./arthematic.sh 
+arthematic OPerations
+enter values
+50
+20
+70
+30
+1000
+2
+
+################################################################################################################################################################################################
+
+4. This example script prompts the user to enter a month and outputs the number of days. There are three possible answers: 30 days, 31 days, 28 or 29 days for February.
+
+#! /bin/bash
+echo -e "Enter the name of a month:\c" 
+read month 
+case $month in 
+  February) 
+
+echo "There are 28/29 days in $month.";; 
+
+  April | June | September | November) 
+
+echo "There are 30 days in $month.";; 
+
+  January | March | May | July | August | October | December) 
+
+echo "There are 31 days in $month.";; 
+
+  *) 
+
+echo "Unknown month. Please check if you entered the correct month name: $month";; 
+
+esac 
+
+
+output
+################################################################################################################################################################################################
+Enter the name of a month.
+september
+There are 30 days in september
+##############################################################################################################################################################################################
+
+5..The script prompts the user to enter the path to the CSV file.
+   Validate the file if its not CSV the script should terminate
+   The script prompts the user to enter an age range (e.g., "18-25") to filter the results. 
+   If not in given range expression  script should prompt to enter with an example to enter the rangeThe script reads the CSV file and extracts the following information for each user
+    a. First name          b. Last name          c. Email address          d. Age      
+   script displays the user data for all users whose age falls within the specified range. 
+
+#!/bin/bash
+echo -e "enter file name:\c"
+read file
+if [ -f $file ]
+then
+echo "$file is present"
+else
+echo "$file is not present"
+exit
+fi
+echo "enter age limit:\c"
+read age
+while [ $age -ge 18 -a $age -le 25 ]
+do
+d=$( cat $file | grep $age )
+echo $d
+#(($age++))
+#age=$(($age+1))
+break
+done
+##########################################################################################################################################################################################################
+output
+################################################################################################################################################################################################
+vishnuallampalli@linux:~/Desktop/tasks$ ./range2.sh 
+enter file name:ff1
+ff1 is present
+enter age limit:\c
+25
+three pt2@gmail.com 25
+
+##############################################################################################################################################################################################
+6. Write a shell script that takes a directory path and an extension as input and creates a backup of all files in the directory that have the specified extension. 
+          The script should create a new directory named "backup" in the same directory as the original files and copy all files with the specified extension to the backup directory. 
+          If the backup directory already exists, the script should prompt the user to confirm whether to overwrite it or not.(Using Functions)
+
+#! /bin/bash
+echo -e "enter directory path:\c"
+read dir1
+echo -e "enter file extension:\c"
+read ext1
+cd $dir1
+fun() {
+    d=$(find $dir1 -type f -name "*$ext1")
+    sudo cp $d ./backup 
+}
+if [ -d backup ]
+then
+ echo -e "backup directory is already exist can i override it (YES/NO):\c"
+ read a
+  if [ $a == "YES" ] 
+   then 
+   cd backup/
+   sudo rm -f *$ext1
+   cd ..
+   fun
+  else
+  echo "same name files are present "
+  exit
+ fi
+else 
+  echo "backup directory is not present so creating the directory "
+   sudo mkdir backup
+  fun
+ fi
+
+output
+########################################################################################################################################################################################################
+
+enter directory path:/home/vishnuallampalli/Desktop/tasks
+enter file extension:.txt
+backup directory is already exist can i override it (YES/NO):YES
+files are copied to backup dir
+
+##############################################################################################################################################################################################
+
+7. Write a shell script that takes a list of file paths as input and creates a compressed archive of all the files. 
+   The script should prompt the user to specify the compression format (zip or tar), and the archive name.
+    The script should also display the size of the original and compressed files and the compression ratio.
+
+#! /bin/bash
+echo -e "enter the directory path :\c"
+read dir1
+echo -e "enter specify the compression format (zip or tar):\c"
+read ext 
+echo -e "enter the archive filename:\c"
+read filename
+if [ $ext == "zip" ]
+ then 
+ echo "the files are zip"
+ d=$(du -h $dir1)
+ echo "before zip the file size is :$d"
+  sudo zip -r $dir1/$filename $dir1/*
+ a=$(du -h $dir1/$filename)
+ echo "after zip the file size is :$a"
+
+elif [ $ext == "tar" ]
+  then
+  echo "the files are tar"
+  d=$(du -h $dir1)
+ echo "before tar the file size is :$d"
+  sudo tar cf $dir1/$filename $dir1/*
+  a=$(du -h $dir1/$filename)
+ echo "after tar the file size is :$a"
+  
+else 
+  ehco "u entered a wrong statement"
+fi 
+
+output
+========
+enter the directory path :/home/vboxuser/zip
+enter specify the compression format (zip or tar):zip
+enter the archive filename:new.zip
+the files are zip
+before zip the file size is :40K        /home/vishnuallampalli/Desktop/tasks/zip
+  adding: home/vboxuser/zip/file1 (deflated 31%)
+  adding: home/vboxuser/zip/file2 (deflated 46%)
+  adding: home/vboxuser/zip/file3 (deflated 42%)
+  adding: home/vboxuser/zip/file4 (deflated 19%)
+  adding: home/vboxuser/zip/s.tar (deflated 97%)
+after zip the file size is :4.0K        /home/vishnuallampalli/Desktop/tasks/zip/new.zip
+##############################################################################################################################################################################################################
+
+8. How will you debug a script if you have made any mistakes in a already written script?
+
+we can debug the script by using 
+set -x in the script 
+
+#! /bin/bash
+echo -e "enter file name:\c"
+read file
+echo -e "enter word:\c"
+read word
+set -x
+if [ -f $file]
+then
+ehco "file is present"
+cat $file
+grep -v -i $word $file > test
+mv test $file
+echo "word is deleted from $file"
+cat $file
+set +x
+else 
+  echo "you entere the wrong file"
+
+fi
+
+output
+========
+enter file name:/home/vishnuallampalli/Desktop/tasks/dbgfile
+enter word:world
++ '[' -f '/home/vishnuallampalli/Desktop/tasks/dbgfile]'
+delword.sh: line 7: [: missing `]'
++ echo 'you entere the wrong file'
+yuo entere the wrong file
+
+
+######################################################################################################################################################################################################
+
+9. Write a shell script that deletes all lines containing a specified word in one or more files supplied as arguments to it?
+
+#! /bin/bash
+echo -e "enter file name:\c"
+read file
+echo -e "enter word:\c"
+read word
+if [ -f $file ]
+then
+ehco "file is present"
+cat $file
+grep -v -i $word $file > test
+mv test $file
+echo "word is deleted from $file"
+cat $file
+else 
+  echo "you entere the wrong file"
+
+fi
+
+output
+###############################################################################################################################################################################################
+
+enter file name:/home/vishnuallampalli/Desktop/tasks/txtf.txt
+enter word:world
+file is present
+
+is
+the
+and
+
+word is deleted from /home/vishnuallampalli/Desktop/tasks/txtf.txt
+
+is
+the
+and

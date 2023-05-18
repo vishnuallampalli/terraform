@@ -1,0 +1,97 @@
+- name: cloning code from git
+  hosts: webserver
+  become: true
+  tasks:
+    - name: Installing git
+      yum:
+        name: git
+        state: present
+
+    - name: cloning code from git repository
+      git:
+        repo: https://github.com/wahtej/php.git
+        dest: /ecommerce
+
+    - name: moving code to default  directory
+      become: true
+      command:  mv /ecommerce /home/ec2-user
+
+    - name: Installing httpd
+      yum:
+        name: httpd
+        state: present
+
+    - name: Starting and enabling httpd
+      service:
+        name: httpd
+        enabled: true
+        state: started
+
+    - name: Installing php dependency (lamp)
+      command: amazon-linux-extras install lamp-mariadb10.2-php7.2 php7.2 -y
+
+    - name: Installing mariadb-server
+      yum:
+        name: mariadb-server
+        state: present
+
+
+    - name: Adding ansible to apache group
+      user:
+        name: ansible
+        group: apache
+        append: yes
+
+    - name: Changing ownership of /var/www
+      file:
+        path: /var/www
+        owner: ansible
+        group: apache
+        recurse: yes
+
+    - name: Changing permissions of /var/www
+      file:
+        path: /var/www
+        mode: '2775'
+        recurse: yes
+
+    - name: Changing permissions of /var/www directory
+      command: find /var/www -type d -exec chmod 2775 {} \;
+
+    - name: Changing permissions to the file to be deployed in root directory
+      command: find /var/www -type f -exec chmod 0664 {} \;
+
+
+    - name: Installing php extensions
+      yum:
+        name:
+          - php-mbstring
+          - php-xml
+        state: present
+
+    - name: Restart apache httpd
+      service:
+        name: httpd
+        state: restarted
+
+    - name: Restart php-fpm
+      service:
+        name: php-fpm
+        state: restarted
+
+
+    - name: download phpmyadmin
+      get_url:
+        url: https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz
+        dest: /var/www/html/phpmyadmin.tar.gz
+
+    - name: create phpMyAdmin directory
+      file:
+        path: /var/www/html/
+        state: directory
+
+    - name: sending code to web server  root directory
+      copy:
+        src: /home/ec2-user/ecommerce
+        dest: /var/www/html
+        remote_src: yes
