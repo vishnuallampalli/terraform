@@ -1,0 +1,136 @@
+
+
+example1.j2
+----------------
+
+{{ variable1 }}
+No effects on this line
+{{ variable2 }}
+
+
+----------------
+
+1. templating-playbook.yaml
+-------------------------
+- hosts: all
+  vars:
+    variable1: 'Hello...!!!'
+    variable2: 'My first playbook using template'
+  tasks:
+    - name: Basic Template Example
+      template:
+        src: example1.j2
+        dest: ./output.txt
+
+----------------------
+example2.j2
+------------
+
+{% for item in list1 %}
+  {{ item }}
+{% endfor %}
+
+
+----------------------
+2.templating-playbook1.yaml
+--------------------
+
+- hosts: all
+  vars:
+    list1: ['Apple','Banana','Cat', 'Dog']
+  tasks:
+    - name: Template Loop example.
+    - template:
+        src: example2.j2
+        dest: ./output.txt
+
+
+----------------------------------------------
+blocks, rescue and always:
+---------- --------------
+---
+- name: Playbook
+  hosts: webservers
+  become: yes
+  become_user: root
+  tasks:
+    - block:
+      - name: test block, this is first command
+        debug:
+          msg: "first message success"
+      - name: second command
+        ansible.builtin.command:
+          cmd: /bin/date
+      rescue:
+      - name: third command, this is excuted only when block failed, otherwise will be skipped
+        debug:
+          msg: "some command in block failed, so this message be excuted"
+      always:
+      - name: test Always. whatever this task have to be executed.
+        debug:
+          msg: "this section definitely be executed!!"
+--------
+error handling:
+------------
+Ignore_unreachable
+-------------------
+
+- hosts: all
+  ignore_unreachable: yes
+  tasks:
+    - name: failure is ignored
+      ansible.builtin.command: 
+        cmd: /bin/true
+    - name: abort play for the host
+      ansible.builtin.command: 
+        cmd: /bin/true
+      ignore_unreachable: no
+	
+	
+	
+failed-when-----------
+- hosts: all
+  tasks:
+    - name: task fails when files are same
+      ansible.builtin.raw: 
+        cmd: diff foo/file1 bar/file2
+      register: diff_cmd
+      failed_when: diff_cmd.rc == 0 or diff_cmd.rc >= 2
+
+----------------------
+
+
+- hosts: hostname
+  any_errors_fatal: true
+
+- hosts: hostname
+  tasks:
+    - block:
+        - include_tasks:  list.yml
+      any_errors_fatal: true
+	  
+	  
+-----------
+
+
+
+
+
+
+
+
+
+
+- name: Playbook
+    hosts: webservers
+    become: yes
+    become_user: root
+    tasks:
+      - name: ensure apache is at the latest version
+        yum:
+          name: httpd
+          state: latest
+      - name: ensure apache is running
+        service:
+          name: httpd
+          state: started	  
